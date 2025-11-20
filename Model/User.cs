@@ -6,28 +6,47 @@ namespace BookingApp.Model
     public class User : ISerializable
     {
         public int Id { get; set; }
-        public string Username { get; set; }
         public string Password { get; set; }
+
+        public string Jmbg { get; set; }
+        public string FirstName { get; set; }   
+        public string LastName { get; set; }    
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+
+        public UserRole Role { get; set; }
 
         public User() { }
 
-        public User(string username, string password)
+        public User(string password, string jmbg, string firstName, string lastName,
+            string email, string phoneNumber, UserRole role)
         {
-            Username = username;
             Password = password;
+            Jmbg = jmbg;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            PhoneNumber = phoneNumber;
+            Role = role;
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Username, Password };
+            string[] csvValues = { Id.ToString(), Password, Jmbg, FirstName, LastName, Email,
+                PhoneNumber, Role.ToString()};
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            Username = values[1];
-            Password = values[2];
+            Password = values[1];
+            Jmbg = values[2];
+            FirstName = values[3];
+            LastName = values[4];
+            Email = values[5];
+            PhoneNumber = values[6];
+            Role = Enum.Parse<UserRole>(values[7]);
         }
     }
 }

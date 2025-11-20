@@ -19,10 +19,10 @@ namespace BookingApp.Repository
             _users = _serializer.FromCSV(FilePath);
         }
 
-        public User GetByUsername(string username)
+        public User GetByEmail(string email)
         {
             _users = _serializer.FromCSV(FilePath);
-            return _users.FirstOrDefault(u => u.Username == username);
+            return _users.FirstOrDefault(u => u.Email == email);
         }
     }
 }

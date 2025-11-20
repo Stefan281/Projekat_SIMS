@@ -1,0 +1,213 @@
+﻿<Window x:Class="BookingApp.View.SearchHotelsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Search hotels"
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <!-- back -->
+            <RowDefinition Height="60"/>
+            <!-- basic search -->
+            <RowDefinition Height="60"/>
+            <!-- apartment search -->
+            <RowDefinition Height="30"/>
+            <!-- error -->
+            <RowDefinition Height="*"/>
+            <!-- results -->
+        </Grid.RowDefinitions>
+
+        <!-- BACK dugme -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Width="80"
+                    Height="25"
+                    Click="Back_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="←"
+                               FontSize="16"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0"/>
+                    <TextBlock Text="Back"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!-- Osnovna pretraga (ime/godina/zvezdice) -->
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Search by:"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0"/>
+            <ComboBox Width="150"
+                      ItemsSource="{Binding SearchTypes}"
+                      SelectedItem="{Binding SelectedSearchType}"
+                      Margin="0,0,20,0"
+                      VerticalAlignment="Center"/>
+
+            <TextBlock Text="Query:"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0"/>
+            <TextBox Width="200"
+                     Text="{Binding QueryText, UpdateSourceTrigger=PropertyChanged}"
+                     VerticalAlignment="Center"
+                     Margin="0,0,20,0"/>
+
+            <Button Content="Search"
+                    Width="80"
+                    Height="25"
+                    Command="{Binding SearchCommand}"/>
+        </StackPanel>
+
+        
+        <!-- Pretraga po apartmanima – vidi se SAMO kad je 'By apartments' -->
+        <StackPanel Grid.Row="2">
+
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsApartmentSearch}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+
+            <!-- Izbor moda: Rooms only / Guests only / Rooms + Guests -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <TextBlock Text="Mode:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <ComboBox Width="150"
+                  ItemsSource="{Binding ApartmentSearchModes}"
+                  SelectedItem="{Binding SelectedApartmentSearchMode}"
+                  VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- ROW: Rooms only -->
+            <Grid Margin="0,0,0,5">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsRoomsOnly}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Rooms:" VerticalAlignment="Center" Margin="0,0,5,0" Grid.Column="0"/>
+                <TextBox Width="60"
+                 Text="{Binding RoomsText, UpdateSourceTrigger=PropertyChanged}"
+                 VerticalAlignment="Center"
+                 Grid.Column="1"/>
+            </Grid>
+
+            <!-- ROW: Guests only -->
+            <Grid Margin="0,0,0,5">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsGuestsOnly}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Guests:" VerticalAlignment="Center" Margin="0,0,5,0" Grid.Column="0"/>
+                <TextBox Width="60"
+                 Text="{Binding GuestsText, UpdateSourceTrigger=PropertyChanged}"
+                 VerticalAlignment="Center"
+                 Grid.Column="1"/>
+            </Grid>
+
+            <!-- ROW: Rooms + Guests + Operator -->
+            <Grid Margin="0,0,0,5">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsRoomsAndGuests}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- rooms label -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- rooms textbox -->
+                    <ColumnDefinition Width="15"/>
+                    <!-- spacer -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- guests label -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- guests textbox -->
+                    <ColumnDefinition Width="20"/>
+                    <!-- spacer -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- operator label -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- operator combobox -->
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Rooms:" VerticalAlignment="Center" Margin="0,0,5,0" Grid.Column="0"/>
+                <TextBox Width="60" Text="{Binding RoomsText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Column="1"/>
+
+                <TextBlock Text="Guests:" VerticalAlignment="Center" Margin="0,0,5,0" Grid.Column="3"/>
+                <TextBox Width="60" Text="{Binding GuestsText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Column="4"/>
+
+                <TextBlock Text="Operator:" VerticalAlignment="Center" Margin="0,0,5,0" Grid.Column="6"/>
+                <ComboBox Width="80"
+                  ItemsSource="{Binding ApartmentOperatorOptions}"
+                  SelectedItem="{Binding SelectedApartmentOperator}"
+                  VerticalAlignment="Center"
+                  Grid.Column="7"/>
+            </Grid>
+
+        </StackPanel>
+        <!-- Error poruka -->
+        <TextBlock Grid.Row="3"
+                   Text="{Binding ErrorMessage}"
+                   Foreground="Red"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"/>
+
+        <!-- Rezultati -->
+        <DataGrid Grid.Row="4"
+                  ItemsSource="{Binding Hotels}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  HeadersVisibility="Column">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="80"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Year built" Binding="{Binding YearBuilt}" Width="100"/>
+                <DataGridTextColumn Header="Stars" Binding="{Binding Stars}" Width="80"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
