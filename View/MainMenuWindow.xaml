@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="Main menu" Height="300" Width="400"
         WindowStartupLocation="CenterScreen">
+    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
+    
     <Grid>
         <StackPanel Margin="20">
             <TextBlock Text="{Binding WelcomeText}"
@@ -27,6 +32,14 @@
                     Height="30"
                     Margin="0,0,0,10"
                     Click="SearchHotels_Click"/>
+
+            <Button Content="Reserve apartment"
+                    Width="150"
+                    Height="30"
+                    Margin="0,0,0,10"
+                    Click="ReserveApartment_Click"
+                    Visibility="{Binding IsGuest, Converter={StaticResource BoolToVis}}"/>
+
         </StackPanel>
     </Grid>
 </Window>

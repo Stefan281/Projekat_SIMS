@@ -28,5 +28,12 @@ namespace BookingApp.View
             searchWindow.Show();
             this.Close();
         }
+
+        private void ReserveApartment_Click(object sender, RoutedEventArgs e)
+        {
+            var reserveWindow = new ReserveApartmentWindow(_loggedInUser);
+            reserveWindow.Show();
+            this.Close();
+        }
     }
 }

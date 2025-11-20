@@ -57,13 +57,21 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
 
-        <!-- Dugme za login koristi Command iz ViewModel-a -->
-        <Button Grid.Row="2"
-                Content="Sign in"
-                Width="80"
-                Height="25"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Command="{Binding LoginCommand}"/>
+        <!-- umesto jednog dugmeta, mali StackPanel sa dva -->
+        <StackPanel Grid.Row="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Button Content="Sign in"
+            Width="80"
+            Height="25"
+            Margin="0,0,10,0"
+            Command="{Binding LoginCommand}"/>
+
+            <Button Content="Register"
+            Width="80"
+            Height="25"
+            Click="OpenRegister_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

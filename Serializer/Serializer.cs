@@ -20,7 +20,7 @@ namespace BookingApp.Serializer
 
             File.WriteAllText(fileName, csv.ToString());
         }
-
+        /*
         public List<T> FromCSV(string fileName)
         {
             List<T> objects = new List<T>();
@@ -28,6 +28,32 @@ namespace BookingApp.Serializer
             foreach(string line in File.ReadLines(fileName))
             {
                 string[] csvValues = line.Split(Delimiter);
+                T obj = new T();
+                obj.FromCSV(csvValues);
+                objects.Add(obj);
+            }
+
+            return objects;
+        }
+        */
+        public List<T> FromCSV(string fileName)
+        {
+            List<T> objects = new List<T>();
+
+            if (!File.Exists(fileName))
+            {
+                // ako fajl ne postoji, vrati praznu listu
+                return objects;
+            }
+
+            foreach (string line in File.ReadLines(fileName))
+            {
+                // preskoči prazne ili whitespace linije
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+
+                string[] csvValues = line.Split(Delimiter);
+
                 T obj = new T();
                 obj.FromCSV(csvValues);
                 objects.Add(obj);
