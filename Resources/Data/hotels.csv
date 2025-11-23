@@ -1,4 +1,7 @@
-1|H001|Hotel Park|2005|4|1235
-2|H002|Sheraton|2020|5|1237
-3|H003|Hotel Borkovac|2008|4|1237
-4|H004|Hotel Novi Sad|2022|2|1235
+1|H001|Hotel Park|2005|4|1235|Approved
+2|H002|Sheraton|2020|5|1237|Approved
+3|H003|Hotel Borkovac|2008|4|1237|Approved
+4|H004|Hotel Novi Sad|2022|2|1235|Approved
+5|H005|Hotel za barabe|2008|5|1235|Approved
+6|H006|Hotel za rokane|2009|1|1235|Rejected
+7|H007|Hotel test primer|1990|2|1237|Pending

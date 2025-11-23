@@ -95,5 +95,6 @@ namespace BookingApp.Repository
             _hotels.RemoveAll(h => h.Id == hotel.Id);
             Save();
         }
+
     }
 }

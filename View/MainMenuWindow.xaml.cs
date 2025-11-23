@@ -42,5 +42,26 @@ namespace BookingApp.View
             window.Show();
             this.Close();
         }
+
+        private void OwnerReservations_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new OwnerReservationsWindow(_loggedInUser);
+            window.Show();
+            this.Close();
+        }
+
+        private void OwnerHotels_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new OwnerHotelsWindow(_loggedInUser);
+            window.Show();
+            this.Close();
+        }
+
+        private void OwnerApartments_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new OwnerApartmentsWindow(_loggedInUser);
+            window.Show();
+            this.Close();
+        }
     }
 }

@@ -136,7 +136,7 @@ namespace BookingApp.ViewModel
         private void LoadApartments()
         {
             Apartments.Clear();
-            var list = _apartmentService.GetAll();
+            var list = _apartmentService.GetAllForGuests();
             foreach (var a in list)
             {
                 Apartments.Add(a);

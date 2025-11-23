@@ -46,7 +46,7 @@ namespace BookingApp.ViewModel
 
         private void LoadHotels()
         {
-            _allHotels = _hotelService.GetAll() ?? new List<Hotel>();
+            _allHotels = _hotelService.GetAllApprovedForGuests() ?? new List<Hotel>();
             RefreshCollection(_allHotels);
         }
 

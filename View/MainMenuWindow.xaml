@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingApp.View"
         mc:Ignorable="d"
-        Title="Main menu" Height="300" Width="400"
+        Title="Main menu" Height="400" Width="400"
         WindowStartupLocation="CenterScreen">
     
     <Window.Resources>
@@ -46,6 +46,27 @@
                     Margin="0,0,0,10"
                     Click="MyReservations_Click"
                     Visibility="{Binding IsGuest, Converter={StaticResource BoolToVis}}"/>
+
+            <Button Content="Manage reservations"
+                    Width="150"
+                    Height="30"
+                    Margin="0,0,0,10"
+                    Click="OwnerReservations_Click"
+                    Visibility="{Binding IsOwner, Converter={StaticResource BoolToVis}}"/>
+
+            <Button Content="My hotels"
+                    Width="150"
+                    Height="30"
+                    Margin="0,0,0,10"
+                    Click="OwnerHotels_Click"
+                    Visibility="{Binding IsOwner, Converter={StaticResource BoolToVis}}"/>
+
+            <Button Content="Manage apartments"
+                    Width="150"
+                    Height="30"
+                    Margin="0,0,0,10"
+                    Click="OwnerApartments_Click"
+                    Visibility="{Binding IsOwner, Converter={StaticResource BoolToVis}}"/>
 
         </StackPanel>
     </Grid>

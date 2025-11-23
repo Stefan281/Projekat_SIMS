@@ -9,10 +9,12 @@ namespace BookingApp.Services
     public class ReservationService
     {
         private readonly ReservationRepository _reservationRepository;
+        private readonly ApartmentRepository _apartmentRepository;
 
         public ReservationService()
         {
             _reservationRepository = new ReservationRepository();
+            _apartmentRepository = new ApartmentRepository();
         }
 
         public bool IsApartmentAvailable(int apartmentId, DateTime date)
@@ -181,6 +183,117 @@ namespace BookingApp.Services
             {
                 r.Status = ReservationStatus.Rejected;
                 r.RejectionReason = "Cancelled by guest.";
+                _reservationRepository.Update(r);
+            }
+
+            return true;
+        }
+
+        // Rezervacije za dati hotel (samo Pending + Approved)
+        public List<Reservation> GetReservationsForHotel(string hotelCode)
+        {
+            var apartments = _apartmentRepository.GetAll()
+                .Where(a => a.HotelCode == hotelCode)
+                .ToList();
+
+            if (apartments.Count == 0)
+                return new List<Reservation>();
+
+            var apartmentIds = apartments.Select(a => a.Id).ToHashSet();
+
+            var all = _reservationRepository.GetAll();
+
+            return all
+                .Where(r => apartmentIds.Contains(r.ApartmentId) &&
+                            (r.Status == ReservationStatus.Pending ||
+                             r.Status == ReservationStatus.Approved))
+                .ToList();
+        }
+
+        public bool ApproveReservation(int requestId, out string errorMessage)
+        {
+            errorMessage = null;
+
+            var all = _reservationRepository
+                .GetByRequestId(requestId)
+                .ToList();
+
+            if (!all.Any())
+            {
+                errorMessage = "Reservation request not found.";
+                return false;
+            }
+
+            // dozvoljeno samo ako su sve Pending
+            if (!all.All(r => r.Status == ReservationStatus.Pending))
+            {
+                errorMessage = "Only pending reservations can be approved.";
+                return false;
+            }
+
+            // 1) ovaj zahtev -> Approved
+            foreach (var r in all)
+            {
+                r.Status = ReservationStatus.Approved;
+                r.RejectionReason = string.Empty;
+                _reservationRepository.Update(r);
+            }
+
+            // 2) sve ostale Pending za iste apartmane i iste datume -> Rejected
+            var allReservations = _reservationRepository.GetAll();
+
+            foreach (var r in all)
+            {
+                var conflicts = allReservations
+                    .Where(x =>
+                           x.ApartmentId == r.ApartmentId &&
+                           x.Date.Date == r.Date.Date &&
+                           x.RequestId != r.RequestId &&
+                           x.Status == ReservationStatus.Pending)
+                    .ToList();
+
+                foreach (var c in conflicts)
+                {
+                    c.Status = ReservationStatus.Rejected;
+                    c.RejectionReason = "Another reservation was approved for this date.";
+                    _reservationRepository.Update(c);
+                }
+            }
+
+            return true;
+        }
+
+        public bool OwnerRejectReservation(int requestId, string reason, out string errorMessage)
+        {
+            errorMessage = null;
+
+            var all = _reservationRepository
+                .GetByRequestId(requestId)
+                .ToList();
+
+            if (!all.Any())
+            {
+                errorMessage = "Reservation request not found.";
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(reason))
+            {
+                errorMessage = "Rejection reason is required.";
+                return false;
+            }
+
+            // može odbiti Pending
+            if (!all.All(r => r.Status == ReservationStatus.Pending))
+            {
+                errorMessage = "Only pending reservations can be rejected.";
+                return false;
+            }
+
+            foreach (var r in all)
+            {
+                r.Status = ReservationStatus.Rejected;
+                r.RejectionReason = reason;
                 _reservationRepository.Update(r);
             }
 
