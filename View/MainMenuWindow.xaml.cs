@@ -35,5 +35,12 @@ namespace BookingApp.View
             reserveWindow.Show();
             this.Close();
         }
+
+        private void MyReservations_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new GuestReservationsWindow(_loggedInUser);
+            window.Show();
+            this.Close();
+        }
     }
 }

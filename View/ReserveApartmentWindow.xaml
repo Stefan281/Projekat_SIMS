@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Reserve apartment"
-        Height="450"
+        Height="470"
         Width="800"
         WindowStartupLocation="CenterScreen">
 
@@ -13,10 +13,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <!-- back -->
-            <RowDefinition Height="50"/>
-            <!-- date -->
+            <RowDefinition Height="60"/>
+            <!-- mode + dates -->
             <RowDefinition Height="30"/>
-            <!-- error -->
+            <!-- messages -->
             <RowDefinition Height="*"/>
             <!-- grid -->
             <RowDefinition Height="50"/>
@@ -39,22 +39,65 @@
             </Button>
         </StackPanel>
 
-        <!-- Date -->
+        <!-- Mode + dates -->
         <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
+                    Orientation="Vertical"
                     VerticalAlignment="Center">
-            <TextBlock Text="Select date:"
-                       VerticalAlignment="Center"
-                       Margin="0,0,10,0"/>
-            <DatePicker SelectedDate="{Binding SelectedDate, Mode=TwoWay}"/>
+
+            <!-- Izbor tipa rezervacije -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <TextBlock Text="Reservation type:"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+                <ComboBox Width="150"
+                          ItemsSource="{Binding ReservationModes}"
+                          SelectedItem="{Binding SelectedReservationMode}"
+                          VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Datumi -->
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Start date:"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+                <DatePicker SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
+                            Width="150"
+                            Margin="0,0,20,0"/>
+
+                <!-- End date – vidi se samo kad je Multiple days -->
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMultipleDays}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+
+                    <TextBlock Text="End date:"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0"/>
+                    <DatePicker SelectedDate="{Binding EndDate, Mode=TwoWay}"
+                                Width="150"/>
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
 
-        <!-- Error -->
-        <TextBlock Grid.Row="2"
-                   Text="{Binding ErrorMessage}"
-                   Foreground="Red"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
+        <!-- Messages -->
+        <StackPanel Grid.Row="2"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock Text="{Binding ErrorMessage}"
+                       Foreground="Red"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding WarningMessage}"
+                       Foreground="Orange"
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
 
         <!-- Apartments grid -->
         <DataGrid Grid.Row="3"

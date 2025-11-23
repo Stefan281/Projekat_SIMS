@@ -29,6 +29,7 @@ namespace BookingApp.ViewModel
             }
         }
 
+        // Start date (pre toga je bio SelectedDate)
         private DateTime? _selectedDate;
         public DateTime? SelectedDate
         {
@@ -38,6 +39,36 @@ namespace BookingApp.ViewModel
                 if (_selectedDate != value)
                 {
                     _selectedDate = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        // End date – samo za multiple days
+        private DateTime? _endDate;
+        public DateTime? EndDate
+        {
+            get => _endDate;
+            set
+            {
+                if (_endDate != value)
+                {
+                    _endDate = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        // Poruke
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                if (_errorMessage != value)
+                {
+                    _errorMessage = value;
                     OnPropertyChanged();
                 }
             }
@@ -57,19 +88,27 @@ namespace BookingApp.ViewModel
             }
         }
 
-        private string _errorMessage;
-        public string ErrorMessage
+        // 👇 MOD: One day / Multiple days
+        public string[] ReservationModes { get; } = { "One day", "Multiple days" };
+
+        private string _selectedReservationMode;
+        public string SelectedReservationMode
         {
-            get => _errorMessage;
+            get => _selectedReservationMode;
             set
             {
-                if (_errorMessage != value)
+                if (_selectedReservationMode != value)
                 {
-                    _errorMessage = value;
+                    _selectedReservationMode = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsOneDay));
+                    OnPropertyChanged(nameof(IsMultipleDays));
                 }
             }
         }
+
+        public bool IsOneDay => SelectedReservationMode == "One day";
+        public bool IsMultipleDays => SelectedReservationMode == "Multiple days";
 
         public ICommand ReserveCommand { get; }
 
@@ -87,6 +126,9 @@ namespace BookingApp.ViewModel
             LoadApartments();
 
             SelectedDate = DateTime.Today;
+            EndDate = DateTime.Today;
+
+            SelectedReservationMode = ReservationModes[0]; // default "One day"
 
             ReserveCommand = new RelayCommand(_ => ExecuteReserve());
         }
@@ -114,25 +156,53 @@ namespace BookingApp.ViewModel
 
             if (!SelectedDate.HasValue)
             {
-                ErrorMessage = "Please select a date.";
+                ErrorMessage = "Please select a start date.";
                 return;
             }
 
-            var reservation = _reservationService.CreateReservation(
-                _guest,
-                SelectedApartment,
-                SelectedDate.Value,
-                out string error,
-                out string warning);
-
-            if (reservation == null)
+            if (IsOneDay)
             {
-                ErrorMessage = error ?? "Reservation failed.";
-                return;
+                var reservation = _reservationService.CreateReservation(
+                    _guest,
+                    SelectedApartment,
+                    SelectedDate.Value,
+                    out string error,
+                    out string warning);
+
+                if (reservation == null)
+                {
+                    ErrorMessage = error ?? "Reservation failed.";
+                    return;
+                }
+
+                WarningMessage = warning;
+            }
+            else // Multiple days
+            {
+                if (!EndDate.HasValue)
+                {
+                    ErrorMessage = "Please select an end date.";
+                    return;
+                }
+
+                var reservation = _reservationService.CreateMultiDayReservation(
+                    _guest,
+                    SelectedApartment,
+                    SelectedDate.Value,
+                    EndDate.Value,
+                    out string error,
+                    out string warning);
+
+                if (reservation == null)
+                {
+                    ErrorMessage = error ?? "Reservation failed.";
+                    return;
+                }
+
+                WarningMessage = warning;
             }
 
-            WarningMessage = warning;
-
+            // uspešno
             ReservationSucceeded?.Invoke();
         }
     }

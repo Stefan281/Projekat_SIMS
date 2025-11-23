@@ -1,12 +1,11 @@
-1|1|6|2025-11-20|Pending
-2|2|6|2025-11-20|Pending
-3|1|6|2025-11-22|Pending
-4|5|1|2025-11-20|Pending
-5|1|6|2025-11-20|Pending
-6|1|6|2025-11-22|Pending
-7|1|6|2025-11-21|Pending
-8|2|6|2025-11-20|Pending
-9|2|6|2025-11-28|Pending
-10|1|1|2025-11-20|Pending
-11|4|1|2025-11-29|Pending
-12|4|1|2025-11-29|Pending
+1|1|1|1|2025-11-23|Rejected|Cancelled by guest.
+2|2|4|1|2025-11-23|Rejected|Cancelled by guest.
+3|2|4|1|2025-11-24|Rejected|Cancelled by guest.
+4|2|4|1|2025-11-25|Rejected|Cancelled by guest.
+5|2|4|1|2025-11-26|Rejected|Cancelled by guest.
+6|3|4|1|2025-11-25|Pending|
+7|3|4|1|2025-11-26|Pending|
+8|3|4|1|2025-11-27|Pending|
+9|3|4|1|2025-11-28|Pending|
+10|3|4|1|2025-11-29|Pending|
+11|4|1|1|2025-11-23|Pending|
