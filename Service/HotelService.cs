@@ -236,5 +236,10 @@ namespace BookingApp.Services
 
             return true;
         }
+
+        public Hotel CreateHotel(Hotel hotel)
+        {
+            return _hotelRepository.Save(hotel);   // ako se kod tebe zove Add, promeni
+        }
     }
 }

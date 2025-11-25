@@ -1,0 +1,102 @@
+﻿<Window x:Class="BookingApp.View.CreateHotelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Create hotel"
+        Height="400"
+        Width="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <!-- back -->
+            <RowDefinition Height="40"/>
+            <!-- messages -->
+            <RowDefinition Height="*"/>
+            <!-- form -->
+        </Grid.RowDefinitions>
+
+        <!-- Back -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Width="80"
+                    Height="25"
+                    Click="Back_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="←"
+                               FontSize="16"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0"/>
+                    <TextBlock Text="Back"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!-- Messages -->
+        <StackPanel Grid.Row="1"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock Text="{Binding ErrorMessage}"
+                       Foreground="Red"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding InfoMessage}"
+                       Foreground="Green"
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Form -->
+        <Grid Grid.Row="2" Margin="0,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="Code:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1"
+                     Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0"
+                       Text="Name:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="1"
+                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0"
+                       Text="Stars (1-5):" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="2" Grid.Column="1"
+                     Text="{Binding Stars, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Row="3" Grid.Column="0"
+                       Text="Year built:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="3" Grid.Column="1"
+                     Text="{Binding YearBuilt, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="0"
+                       Text="Owner JMBG:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="4" Grid.Column="1"
+                     Text="{Binding OwnerJmbg, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Button Grid.Row="5"
+                    Grid.Column="1"
+                    Content="Create hotel"
+                    Width="120"
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    Margin="0,10,0,0"
+                    Command="{Binding CreateHotelCommand}"/>
+        </Grid>
+    </Grid>
+</Window>
