@@ -135,7 +135,6 @@ namespace BookingApp.ViewModel
             ErrorMessage = string.Empty;
             InfoMessage = string.Empty;
 
-            // 🔹 SVA polja obavezna
             if (string.IsNullOrWhiteSpace(Email) ||
                 string.IsNullOrWhiteSpace(Password) ||
                 string.IsNullOrWhiteSpace(Jmbg) ||
@@ -147,7 +146,6 @@ namespace BookingApp.ViewModel
                 return;
             }
 
-            // 🔹 NEMA više ograničenja na dužinu JMBG-a
             var allUsers = _userRepository.GetAll();
 
             if (allUsers.Any(u => u.Email == Email))
@@ -182,7 +180,6 @@ namespace BookingApp.ViewModel
 
             InfoMessage = "Owner successfully registered.";
 
-            // reset input polja u VM
             Email = string.Empty;
             Password = string.Empty;
             Jmbg = string.Empty;

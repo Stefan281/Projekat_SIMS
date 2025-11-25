@@ -29,7 +29,6 @@ namespace BookingApp.ViewModel
             }
         }
 
-        // Start date (pre toga je bio SelectedDate)
         private DateTime? _selectedDate;
         public DateTime? SelectedDate
         {
@@ -44,7 +43,6 @@ namespace BookingApp.ViewModel
             }
         }
 
-        // End date – samo za multiple days
         private DateTime? _endDate;
         public DateTime? EndDate
         {
@@ -59,7 +57,6 @@ namespace BookingApp.ViewModel
             }
         }
 
-        // Poruke
         private string _errorMessage;
         public string ErrorMessage
         {
@@ -88,7 +85,6 @@ namespace BookingApp.ViewModel
             }
         }
 
-        // 👇 MOD: One day / Multiple days
         public string[] ReservationModes { get; } = { "One day", "Multiple days" };
 
         private string _selectedReservationMode;
@@ -128,7 +124,7 @@ namespace BookingApp.ViewModel
             SelectedDate = DateTime.Today;
             EndDate = DateTime.Today;
 
-            SelectedReservationMode = ReservationModes[0]; // default "One day"
+            SelectedReservationMode = ReservationModes[0];
 
             ReserveCommand = new RelayCommand(_ => ExecuteReserve());
         }
@@ -177,7 +173,7 @@ namespace BookingApp.ViewModel
 
                 WarningMessage = warning;
             }
-            else // Multiple days
+            else
             {
                 if (!EndDate.HasValue)
                 {
@@ -202,7 +198,6 @@ namespace BookingApp.ViewModel
                 WarningMessage = warning;
             }
 
-            // uspešno
             ReservationSucceeded?.Invoke();
         }
     }

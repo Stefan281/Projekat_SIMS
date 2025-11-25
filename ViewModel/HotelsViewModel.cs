@@ -10,13 +10,13 @@ namespace BookingApp.ViewModel
     {
         private readonly HotelService _hotelService;
 
-        // Svi hoteli iz servisa (osnovna lista)
+        
         private List<Hotel> _allHotels = new List<Hotel>();
 
-        // Kolekcija koja se binduje na DataGrid
+        
         public ObservableCollection<Hotel> Hotels { get; } = new ObservableCollection<Hotel>();
 
-        // Opcije sortiranja koje prikazujemo u ComboBox-u
+       
         public List<string> SortOptions { get; } =
             new List<string> { "No sort", "Stars ascending", "Stars descending" };
 

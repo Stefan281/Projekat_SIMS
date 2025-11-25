@@ -6,13 +6,13 @@ namespace BookingApp.Model
     public class Reservation : ISerializable
     {
         public int Id { get; set; }
-        public int RequestId { get; set; }   // grupa dana – već imaš
+        public int RequestId { get; set; }   // kako bi znali sta sve cini rezervaciju od vise dana
         public int ApartmentId { get; set; }
         public int GuestId { get; set; }
         public DateTime Date { get; set; }
         public ReservationStatus Status { get; set; }
 
-        public string RejectionReason { get; set; }  // 👈 NOVO
+        public string RejectionReason { get; set; }
 
         public Reservation() { }
 

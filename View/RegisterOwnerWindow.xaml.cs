@@ -26,13 +26,10 @@ namespace BookingApp.View
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            // PasswordBox ne može direktno na binding, pa ručno:
             _viewModel.Password = pwdBox.Password;
 
-            // pokreni komandu:
             _viewModel.RegisterCommand.Execute(null);
 
-            // ✅ ako nema greške, znači da je registracija uspela
             if (string.IsNullOrEmpty(_viewModel.ErrorMessage))
             {
                 MessageBox.Show("Owner registered successfully. Returning to main menu.", "Info",

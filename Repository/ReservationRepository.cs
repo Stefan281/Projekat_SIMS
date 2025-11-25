@@ -44,7 +44,7 @@ namespace BookingApp.Repository
                 .ToList();
         }
 
-        // 👇 ID pojedinačnog reda
+        // ID pojedinačnog reda
         private int NextId()
         {
             if (_reservations == null || _reservations.Count == 0)
@@ -53,7 +53,7 @@ namespace BookingApp.Repository
             return _reservations.Max(r => r.Id) + 1;
         }
 
-        // 👇 ID "zahteva rezervacije" – ista vrednost za sve dane jedne rezervacije
+        // ID "zahteva rezervacije" – ista vrednost za sve dane jedne rezervacije
         public int GetNextRequestId()
         {
             Load();

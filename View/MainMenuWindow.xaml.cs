@@ -77,5 +77,12 @@ namespace BookingApp.View
             window.Show();
             this.Close();
         }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            var signIn = new SignInForm();
+            signIn.Show();
+            this.Close();
+        }
     }
 }

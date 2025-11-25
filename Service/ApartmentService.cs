@@ -21,10 +21,8 @@ namespace BookingApp.Services
             return _apartmentRepository.GetAll();
         }
 
-        /// <summary>
-        /// Apartmani koje gost sme da vidi / rezerviše:
-        /// samo oni čiji je hotel Approved.
-        /// </summary>
+        // Apartmani koje gost sme da vidi / rezerviše:
+        // samo oni čiji je hotel Approved.
         public List<Apartment> GetAllForGuests()
         {
             var apartments = _apartmentRepository.GetAll();
@@ -40,9 +38,7 @@ namespace BookingApp.Services
                 .ToList();
         }
 
-        /// <summary>
-        /// Svi apartmani za konkretan hotel (koristi vlasnik).
-        /// </summary>
+        // Svi apartmani za konkretan hotel (koristi vlasnik).
         public List<Apartment> GetByHotelCode(string hotelCode)
         {
             return _apartmentRepository
@@ -51,13 +47,9 @@ namespace BookingApp.Services
                 .ToList();
         }
 
-        /// <summary>
-        /// Kreiranje novog apartmana.
-        /// </summary>
+        // Kreiranje novog apartmana.
         public Apartment CreateApartment(Apartment apartment)
         {
-            // pretpostavljam da ApartmentRepository ima metodu Save kao CommentRepository.
-            // Ako se kod tebe zove Add, samo promeni ime.
             return _apartmentRepository.Save(apartment);
         }
     }

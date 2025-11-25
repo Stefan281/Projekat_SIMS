@@ -42,14 +42,14 @@ namespace BookingApp.Services
                 return null;
             }
 
-            // jedinstvena lozinka (kako zadatak traži, iako je čudno u praksi)
+            // jedinstvena lozinka
             if (_userRepository.GetByPassword(password) != null)
             {
                 errorMessage = "Password is already in use.";
                 return null;
             }
 
-            // ja bih ovde proverio i JMBG, čisto logično
+            // jedinstven JMBG
             if (_userRepository.GetByJmbg(jmbg) != null)
             {
                 errorMessage = "JMBG is already in use.";

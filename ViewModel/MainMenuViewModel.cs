@@ -8,7 +8,6 @@ namespace BookingApp.ViewModel
 
         public string WelcomeText => $"Welcome, {_loggedInUser.FirstName}";
 
-        // Ako hoćeš, možeš izložiti i ulogu:
         public string RoleText => _loggedInUser.Role.ToString();
 
         public bool IsGuest => _loggedInUser.Role == UserRole.Guest;

@@ -20,22 +20,6 @@ namespace BookingApp.Serializer
 
             File.WriteAllText(fileName, csv.ToString());
         }
-        /*
-        public List<T> FromCSV(string fileName)
-        {
-            List<T> objects = new List<T>();
-
-            foreach(string line in File.ReadLines(fileName))
-            {
-                string[] csvValues = line.Split(Delimiter);
-                T obj = new T();
-                obj.FromCSV(csvValues);
-                objects.Add(obj);
-            }
-
-            return objects;
-        }
-        */
         public List<T> FromCSV(string fileName)
         {
             List<T> objects = new List<T>();

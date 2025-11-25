@@ -135,7 +135,6 @@ namespace BookingApp.ViewModel
         {
             ErrorMessage = string.Empty;
 
-            // jednostavne validacije
             if (string.IsNullOrWhiteSpace(Jmbg) ||
                 string.IsNullOrWhiteSpace(FirstName) ||
                 string.IsNullOrWhiteSpace(LastName) ||
@@ -169,7 +168,6 @@ namespace BookingApp.ViewModel
                 return;
             }
 
-            // uspešna registracija
             RegistrationSucceeded?.Invoke(user);
         }
     }

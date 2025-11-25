@@ -227,7 +227,6 @@ namespace BookingApp.ViewModel
                 return;
             }
 
-            // ⬇️ NOVO: rejection reason ne sme da bude popunjen kod approve
             if (!string.IsNullOrWhiteSpace(RejectionReasonInput))
             {
                 ErrorMessage = "Rejection reason is used only when rejecting. Clear it before approving.";
@@ -246,7 +245,6 @@ namespace BookingApp.ViewModel
 
             InfoMessage = "Reservation approved.";
 
-            // ⬇️ čisto, iako ovde već znamo da je prazno
             RejectionReasonInput = string.Empty;
 
             LoadReservationsForSelectedHotel();

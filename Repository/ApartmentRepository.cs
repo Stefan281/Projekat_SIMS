@@ -48,7 +48,7 @@ namespace BookingApp.Repository
                 .ToList();
         }
 
-        // ako ti treba da proveriš jedinstvenost imena u okviru hotela
+        // provera jedinstvenosi imena apartmana u okviru hotela
         public Apartment GetByNameAndHotel(string name, string hotelCode)
         {
             Load();

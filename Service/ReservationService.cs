@@ -60,7 +60,6 @@ namespace BookingApp.Services
                                  "The owner will decide which one to approve.";
             }
 
-            // 👇 UZIMAMO NOVI RequestId ZA CEO ZAHTEV
             int requestId = _reservationRepository.GetNextRequestId();
 
             var reservation = new Reservation(
@@ -102,7 +101,6 @@ namespace BookingApp.Services
 
             bool hasPending = false;
 
-            // 1) proveri Approved / Pending po danima
             for (DateTime d = startDate; d <= endDate; d = d.AddDays(1))
             {
                 if (!IsApartmentAvailable(apartment.Id, d))
@@ -124,7 +122,6 @@ namespace BookingApp.Services
                                  "The owner will decide which one to approve.";
             }
 
-            // 👇 JEDAN RequestId ZA SVE DANE
             int requestId = _reservationRepository.GetNextRequestId();
 
             Reservation last = null;
@@ -165,14 +162,12 @@ namespace BookingApp.Services
                 return false;
             }
 
-            // ako je već odbijena, nema smisla otkazivati
             if (all.All(r => r.Status == ReservationStatus.Rejected))
             {
                 errorMessage = "This reservation is already rejected.";
                 return false;
             }
 
-            // samo Pending ili Approved smemo da "otkažemo"
             if (!all.All(r => r.Status == ReservationStatus.Pending || r.Status == ReservationStatus.Approved))
             {
                 errorMessage = "Only pending or approved reservations can be cancelled.";
@@ -189,7 +184,7 @@ namespace BookingApp.Services
             return true;
         }
 
-        // Rezervacije za dati hotel (samo Pending + Approved)
+        // Rezervacije za dati hotel (Pending + Approved)
         public List<Reservation> GetReservationsForHotel(string hotelCode)
         {
             var apartments = _apartmentRepository.GetAll()
@@ -231,7 +226,6 @@ namespace BookingApp.Services
                 return false;
             }
 
-            // 1) ovaj zahtev -> Approved
             foreach (var r in all)
             {
                 r.Status = ReservationStatus.Approved;
@@ -239,7 +233,6 @@ namespace BookingApp.Services
                 _reservationRepository.Update(r);
             }
 
-            // 2) sve ostale Pending za iste apartmane i iste datume -> Rejected
             var allReservations = _reservationRepository.GetAll();
 
             foreach (var r in all)
@@ -283,7 +276,6 @@ namespace BookingApp.Services
                 return false;
             }
 
-            // može odbiti Pending
             if (!all.All(r => r.Status == ReservationStatus.Pending))
             {
                 errorMessage = "Only pending reservations can be rejected.";

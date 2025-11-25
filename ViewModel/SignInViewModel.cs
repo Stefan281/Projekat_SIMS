@@ -55,7 +55,6 @@ namespace BookingApp.ViewModel
 
         public ICommand LoginCommand { get; }
 
-        // View se pretplaćuje na ovaj event da bi znao kada da otvori glavni meni
         public event Action<User> LoginSucceeded;
 
         public SignInViewModel(AuthService authService)
@@ -86,7 +85,6 @@ namespace BookingApp.ViewModel
             }
             else
             {
-                // Obavesti view da je login uspeo
                 LoginSucceeded?.Invoke(user);
             }
         }

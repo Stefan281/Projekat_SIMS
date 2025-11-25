@@ -187,7 +187,6 @@ namespace BookingApp.ViewModel
                         int? rooms = null;
                         int? guests = null;
 
-                        // RoomsText i GuestsText parsiramo po potrebi, u zavisnosti od moda
                         if (IsRoomsOnly || IsRoomsAndGuests)
                         {
                             if (string.IsNullOrWhiteSpace(RoomsText))
@@ -222,24 +221,21 @@ namespace BookingApp.ViewModel
 
                         if (IsRoomsOnly)
                         {
-                            // samo sobe – guests je null, operator nebitan
                             logicalOp = "&";
                         }
                         else if (IsGuestsOnly)
                         {
-                            // samo gosti – rooms je null, operator nebitan
                             logicalOp = "&";
                         }
                         else if (IsRoomsAndGuests)
                         {
-                            // oba kriterijuma – koristi AND / OR
                             if (SelectedApartmentOperator == "OR")
                             {
-                                logicalOp = "|"; // unija (barem jedan uslov)
+                                logicalOp = "|"; // barem jedan uslov
                             }
                             else
                             {
-                                logicalOp = "&"; // presek (oba uslova)
+                                logicalOp = "&"; // oba uslova
                             }
                         }
 

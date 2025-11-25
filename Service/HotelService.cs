@@ -16,18 +16,13 @@ namespace BookingApp.Services
             _apartmentRepository = new ApartmentRepository();
         }
 
-        /// <summary>
-        /// SVI hoteli iz repozitorijuma (bez obzira na status).
-        /// Uglavnom koristiš za logiku vlasnika / admina.
-        /// </summary>
+        // Svi hoteli iz repozitorijuma (bez obzira na status).
         public List<Hotel> GetAll()
         {
             return _hotelRepository.GetAll();
         }
 
-        /// <summary>
-        /// Hoteli koje gosti treba da vide — samo Approved.
-        /// </summary>
+        // Hoteli koje gosti treba da vide — samo Approved.
         public List<Hotel> GetAllApprovedForGuests()
         {
             return _hotelRepository
@@ -37,7 +32,7 @@ namespace BookingApp.Services
         }
 
         
-        //
+        // Specijalna metoda.
         public List<Hotel> GetAllApprovedForGuestsForOwner(User owner)
         {
             return _hotelRepository
@@ -46,11 +41,7 @@ namespace BookingApp.Services
                 .ToList();
         }
 
-        /// <summary>
-        /// Pretraga hotela po imenu — samo po Approved hotelima.
-        /// Ako je query prazan/whitespace, vraća praznu listu
-        /// (jer imaš posebno "View all hotels").
-        /// </summary>
+        // Pretraga hotela po imenu — samo po Approved hotelima.
         public List<Hotel> SearchByName(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -66,41 +57,28 @@ namespace BookingApp.Services
                 .ToList();
         }
 
-        /// <summary>
-        /// Pretraga po godini izgradnje — samo Approved hoteli.
-        /// </summary>
+        // Pretraga po godini izgradnje — samo Approved hoteli.
         public List<Hotel> SearchByYear(int year)
         {
             var hotels = GetAllApprovedForGuests();
             return hotels.Where(h => h.YearBuilt == year).ToList();
         }
 
-        /// <summary>
-        /// Pretraga po broju zvezdica — samo Approved hoteli.
-        /// </summary>
+        // Pretraga po broju zvezdica — samo Approved hoteli.
         public List<Hotel> SearchByStars(int stars)
         {
             var hotels = GetAllApprovedForGuests();
             return hotels.Where(h => h.Stars == stars).ToList();
         }
 
-        /// <summary>
-        /// Pretraga po apartmanima (sobe/gosti/oba) — ali samo u okviru
-        /// Approved hotela. Apartmani čiji hotel nije Approved se ignorišu.
-        ///
-        /// - roomCount != null, maxGuests == null  -> po broju soba
-        /// - roomCount == null, maxGuests != null  -> po broju gostiju
-        /// - oba != null -> po oba parametra (& ili |)
-        /// </summary>
+        // Pretraga po apartmanima (sobe/gosti/oba) — samo Approved hoteli. 
         public List<Hotel> SearchByApartments(int? roomCount, int? maxGuests, string logicalOp)
         {
-            // prvo dohvatamo SAMO approved hotele
             var hotels = GetAllApprovedForGuests();
             var approvedHotelCodes = hotels
                 .Select(h => h.Code)
                 .ToHashSet();
 
-            // uzimamo sve apartmane, ali filtriramo samo one koji pripadaju approved hotelima
             var apartments = _apartmentRepository
                 .GetAll()
                 .Where(a => approvedHotelCodes.Contains(a.HotelCode));
@@ -133,7 +111,7 @@ namespace BookingApp.Services
                 }
                 else // "&" ili bilo šta drugo -> AND
                 {
-                    // oba uslova na ISTOM apartmanu
+                    // oba uslova na istom apartmanu zadovoljena
                     query = query.Where(a =>
                         a.RoomCount == roomCount.Value &&
                         a.MaxGuests == maxGuests.Value);
@@ -145,25 +123,21 @@ namespace BookingApp.Services
                 .Distinct()
                 .ToList();
 
-            // vraćamo samo approved hotele čiji kod je u rezultatu pretrage apartmana
             return hotels
                 .Where(h => hotelCodes.Contains(h.Code))
                 .ToList();
         }
 
-        // ==== Logika za vlasnika (owner) ====
-        //ova metoda je mozda i visak sad
+        //svi hoteli za vlasnika
         public List<Hotel> GetHotelsForOwner(User owner)
         {
-            // svi hoteli tog vlasnika (bez obzira na status)
             return _hotelRepository
                 .GetAll()
                 .Where(h => h.OwnerJmbg == owner.Jmbg)
                 .ToList();
         }
 
-        // hoteli koje vlasnik vidi na ekranu "My hotels":
-        // Pending + Approved
+        // hoteli koje vlasnik vidi na ekranu "My hotels"(Pending i Approved)
         public List<Hotel> GetOwnerVisibleHotels(User owner)
         {
             return GetHotelsForOwner(owner)
@@ -185,7 +159,7 @@ namespace BookingApp.Services
                 return false;
             }
 
-            // sigurnost: da li pripada ovom vlasniku
+            //  da li pripada ovom vlasniku
             if (hotel.OwnerJmbg != owner.Jmbg)
             {
                 errorMessage = "You can only approve your own hotels.";
@@ -224,7 +198,7 @@ namespace BookingApp.Services
                 return false;
             }
 
-            // može odbiti samo PENDING (ako je admin pogrešno spojio)
+            // može odbiti samo Pending hotele
             if (hotel.Status != HotelStatus.Pending)
             {
                 errorMessage = "Only pending hotels can be rejected.";
@@ -239,7 +213,7 @@ namespace BookingApp.Services
 
         public Hotel CreateHotel(Hotel hotel)
         {
-            return _hotelRepository.Save(hotel);   // ako se kod tebe zove Add, promeni
+            return _hotelRepository.Save(hotel);
         }
     }
 }

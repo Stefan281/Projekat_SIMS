@@ -181,6 +181,21 @@ namespace BookingApp.ViewModel
                 return;
             }
 
+
+            //jedinstvenost imena apartmana u okviru hotela
+            var normalizedNewName = NewName.Trim().ToLower();
+
+            bool nameAlreadyExists = Apartments.Any(a =>
+                !string.IsNullOrWhiteSpace(a.Name) &&
+                a.Name.Trim().ToLower() == normalizedNewName);
+
+            if (nameAlreadyExists)
+            {
+                ErrorMessage = "Apartment with this name already exists in the selected hotel.";
+                return;
+            }
+
+
             if (!int.TryParse(NewRoomCount, out int roomCount) || roomCount <= 0)
             {
                 ErrorMessage = "Room count must be a positive integer.";

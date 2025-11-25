@@ -157,7 +157,7 @@ namespace BookingApp.ViewModel
                 return;
             }
 
-            // opciono: provera da ne dupliraš Code
+            
             var allHotels = _hotelService.GetAll();
             if (allHotels.Any(h => h.Code == Code))
             {
@@ -172,7 +172,7 @@ namespace BookingApp.ViewModel
                 Stars = stars,
                 YearBuilt = yearBuilt,
                 OwnerJmbg = OwnerJmbg.Trim(),
-                Status = HotelStatus.Pending  // ključna stvar!
+                Status = HotelStatus.Pending  
             };
 
             var created = _hotelService.CreateHotel(hotel);
@@ -184,7 +184,7 @@ namespace BookingApp.ViewModel
 
             InfoMessage = "Hotel created. Waiting for owner's approval.";
 
-            // reset polja
+            
             Code = string.Empty;
             Name = string.Empty;
             Stars = string.Empty;
